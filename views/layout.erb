@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="/public/css/bootstrap.min.css">
+<link rel="stylesheet" href="/public/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="/public/css/custom.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/public/custom.js"></script>
+<link rel="shortcut icon" href="/public/favicon.ico">
+  <title>ФУАМО - парсер</title>
+</head>
+<body>
+  <div id="wrapper">
+    <div class="select-form">
+    <form action="/parse" method="post" class="form-inline" role="form">
+      <select name="mo" class="form-control">
+        <option disabled>Выберите Медицинскую Организацию</option>
+        <% (1..MO.size).each do |i| %>
+          <option value="<%= MO[i]['url'] %>"><%= MO[i]['title']%></option>
+        <% end %>
+       </select>  
+       <br />
+     <button type="submit" class="btn btn-default" style="margin-top: 5px;">ОК</button>
+    </form>
+  </div>
+    <%= yield %>
+  </div>
+</body>
+</html>

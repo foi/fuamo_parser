@@ -1,0 +1,5 @@
+.select-form {margin:0 auto;margin-top:5px;}
+#wrapper {margin: 0 auto;width: 999px;}
+p {line-height: 1.0}
+.glyphicon-ok:before { content: ""; }
+.glyphicon-remove:before { content: ""; }

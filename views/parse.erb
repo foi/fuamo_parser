@@ -1,0 +1,123 @@
+<h2> Компьютеров: <%= @data['computers_count'] %></h2> 
+<p>PDF здания: <span id="building-pdf"></span></p> 
+<p>PDF отделения: <span id="department-pdf"></span></p>
+<p>PDF кабинетов: <span id="rooms-pdf"></span></p>
+<h2>
+Общие сведения об организации
+<% if @data['pdf'] == true %>
+  <span class="glyphicon-ok"><b>+</b></span>
+<% else %>
+  <span class="glyphicon-remove"><b>-</b></span>
+<% end %>
+</h2>
+<% @data['info'].each do |i| %>
+  <% i.each do |k, v| %>
+    <p><%= "#{k}: #{v}" %></p>
+  <% end %>
+<% end %>
+<h2>Сотрудники</h2>
+<% @data['employees'].each do |i| %>
+  <% i.each do |k, v| %>
+    <p><%= "#{k}: #{v}" %></p>
+  <% end %>
+<% end %>
+
+<% @data['buildings'].each do |i| %>
+  <% i.each do |k, v| %>
+    <h3 style="border-bottom: 2px solid maroon;">
+      <%= "#{k}" %>
+      <% if v.first['pdf'] %>
+        <span class="glyphicon-ok"><b>+</b></span>
+      <% else %>
+        <span class="glyphicon-remove" style="color: red;"><b>-</b></span>
+      <% end %>
+    </h3>
+    <% v.last.each do |bk_info, bv_info| %>
+      <p><%= "#{bk_info}: #{bv_info}" %></p>
+    <% end %>
+      <% (1..(v.size - 2)).each do |bi| %>
+        <% v[bi].each do |_bk, _bv| %>
+          <h4 id="dep" style="text-transform:uppercase;">
+            <%= _bk %>
+            <% if _bv.first['pdf'] %>
+              <span class="glyphicon-ok"><b>+</b></span>
+            <% else %>
+              <span class="glyphicon-remove" style="color: red;"><b>-</b></span>
+            <% end %>
+          </h4>
+          <% _bv[1]['employees'].each do |d_emp_i| %>
+            <% d_emp_i.each do |emp_k, emp_v| %>
+            <p><%= "#{emp_k}: #{emp_v}" %></p>
+            <% end %>
+          <% end %>
+          <% (2.._bv.count).each do |d_i| %>
+            <% unless _bv[d_i].nil? %>   
+              <% _bv[d_i].each do |r_k, r_v| %>
+              
+                <h4 id="room" style="background: #CCCCCC;">
+                  <%= r_k %>
+                  <% if r_v.first['pdf'] %>
+                    <span class="glyphicon-ok"><b>+</b></span>
+                  <% else %>
+                    <span class="glyphicon-remove" style="color: red;"><b>-</b></span>
+                  <% end %>
+                </h4>
+                <p>
+                  <% r_v[1]['info'].each do |r_i_k, r_i_v| %>
+                    <i><%= "#{r_i_k}: #{r_i_v}" %></i>,
+                  <% end %>
+                </p>
+                <p>
+                  <i>
+                    <% r_v[1]['office appliances'].each do |office_k, office_v| %>
+                      <%= office_k %>: 
+                      <% if office_v %>
+                        <span class="glyphicon-ok"><b>+</b></span>
+                      <% else %>
+                        <span class="glyphicon-remove"><b>-</b></span>
+                      <% end %>
+                    <% end %>
+                  </i>
+                </p>
+                <p>
+                  <i>
+                   <% r_v[1]['med technics'].each do |med_tech_name, med_tech_status| %>
+                     <p><b>
+                     <%= med_tech_name %>:
+                     <% med_tech_status.each do |_status| %>
+                        <% if _status %>
+                          <span class="glyphicon-ok"><b>+</b></span>
+                        <% else %>
+                          <span class="glyphicon-remove"><b>-</b></span>
+                        <% end %>
+                     <% end %>
+                     </b></p>
+                   <% end %>
+                  </i>
+                </p>
+                <% unless r_v[1]['computers'].empty? %>
+                  <p><b>
+                    Компьютеры:<%= r_v[1]['computers'][0]['computers_count'] %>
+                  </b></p>
+                  <% (1..(r_v[1]['computers'].size - 1)).each do |comp_index| %>
+                    <% (r_v[1]['computers'][comp_index]).each do |comp_key, comp_val| %>
+                      <p><b>
+                        <%= comp_key %>:
+                        <% comp_val.each do |comp_char, comp_char_val|%>
+                          <% if comp_char_val %>
+                            <span class="glyphicon-ok" title="<%= comp_char %>"><b>+</b></span>
+                          <% else %>
+                            <span class="glyphicon-remove" title="<%= comp_char %>"><b>-</b></span>
+                          <% end %>
+                        <% end %>
+                      </b></p>  
+                    <% end %>
+                  <% end %>
+                <% end %>  
+              <% end %> 
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+  <% end %>
+<% end %>
